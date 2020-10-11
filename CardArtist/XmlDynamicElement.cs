@@ -56,7 +56,7 @@ namespace CardArtist
             return Element.ToString();
         }
 
-        public IEnumerable<XmlDynamicElement> Elements()
+        public XmlDynamicElement[] Elements()
         {
             return Element.Elements().Select(e => new XmlDynamicElement(e)).ToArray();
         }
@@ -71,7 +71,7 @@ namespace CardArtist
             return Element.Name.LocalName;
         }
 
-        public IEnumerable<XmlDynamicAttribute> Attributes()
+        public XmlDynamicAttribute[] Attributes()
         {
             return Element.Attributes().Select(a => new XmlDynamicAttribute(a)).ToArray();
         }

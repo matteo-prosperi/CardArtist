@@ -156,15 +156,7 @@ namespace CardArtist
 
         private void SetCurrentView(string? textFilePath, Exception? exception, string? imagePath)
         {
-            if (textFilePath != null)
-            {
-                TextEditor.Text = File.ReadAllText(textFilePath);
-                TextEditor.Background = new SolidColorBrush(Colors.White);
-                TextEditorScroll.Visibility = Visibility.Visible;
-                CardRender.Source = null;
-                CardRender.Visibility = Visibility.Collapsed;
-            }
-            else if (exception != null)
+            if (exception != null)
             {
                 TextEditor.Text = exception.ToString();
                 TextEditor.Background = new SolidColorBrush(Colors.PaleVioletRed);
@@ -172,22 +164,40 @@ namespace CardArtist
                 CardRender.Source = null;
                 CardRender.Visibility = Visibility.Collapsed;
             }
-            else if (imagePath != null)
-            {
-                TextEditor.Text = "";
-                TextEditor.Background = new SolidColorBrush(Colors.White);
-                TextEditorScroll.Visibility = Visibility.Collapsed;
-                using var fileStream = new FileStream(imagePath, FileMode.Open, FileAccess.Read, FileShare.Read);
-                CardRender.Source = BitmapFrame.Create(fileStream, BitmapCreateOptions.None, BitmapCacheOption.OnLoad);
-                CardRender.Visibility = Visibility.Visible;
-            }
             else
             {
-                TextEditor.Text = "";
-                TextEditor.Background = new SolidColorBrush(Colors.White);
-                TextEditorScroll.Visibility = Visibility.Visible;
-                CardRender.Source = null;
-                CardRender.Visibility = Visibility.Collapsed;
+                try
+                {
+                    if (textFilePath != null)
+                    {
+                        TextEditor.Text = File.ReadAllText(textFilePath);
+                        TextEditor.Background = new SolidColorBrush(Colors.White);
+                        TextEditorScroll.Visibility = Visibility.Visible;
+                        CardRender.Source = null;
+                        CardRender.Visibility = Visibility.Collapsed;
+                    }
+                    else if (imagePath != null)
+                    {
+                        TextEditor.Text = "";
+                        TextEditor.Background = new SolidColorBrush(Colors.White);
+                        TextEditorScroll.Visibility = Visibility.Collapsed;
+                        using var fileStream = new FileStream(imagePath, FileMode.Open, FileAccess.Read, FileShare.Read);
+                        CardRender.Source = BitmapFrame.Create(fileStream, BitmapCreateOptions.None, BitmapCacheOption.OnLoad);
+                        CardRender.Visibility = Visibility.Visible;
+                    }
+                    else
+                    {
+                        TextEditor.Text = "";
+                        TextEditor.Background = new SolidColorBrush(Colors.White);
+                        TextEditorScroll.Visibility = Visibility.Visible;
+                        CardRender.Source = null;
+                        CardRender.Visibility = Visibility.Collapsed;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    SetCurrentView(null, ex, null);
+                }
             }
         }
     }
