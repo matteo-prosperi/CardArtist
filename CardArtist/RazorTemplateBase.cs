@@ -33,6 +33,7 @@ namespace CardArtist
                             WriteLiteral($"<{child.Name}");
                             foreach (var attribute in child.Attributes())
                             {
+                                WriteLiteral(" ");
                                 WriteLiteral(attribute.ToString());
                             }
                             WriteLiteral(child.IsEmpty ? "/>" : ">");

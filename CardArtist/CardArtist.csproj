@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net5.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
     <UseWindowsForms>true</UseWindowsForms>
     <Nullable>enable</Nullable>
@@ -11,13 +11,13 @@
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageProjectUrl>https://github.com/matteo-prosperi</PackageProjectUrl>
     <RepositoryUrl>https://github.com/matteo-prosperi</RepositoryUrl>
-    <Version>0.0.1</Version>
+    <Version>0.0.2</Version>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Razor.Language" Version="5.0.0-rc.1.20451.17" />
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.8.0-3.final" />
-    <PackageReference Include="System.Collections.Immutable" Version="5.0.0-rc.1.20451.14" />
+    <PackageReference Include="Microsoft.AspNetCore.Razor.Language" Version="5.0.0-rc.2.20475.17" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.8.0-4.final" />
+    <PackageReference Include="System.Collections.Immutable" Version="5.0.0-rc.2.20475.5" />
   </ItemGroup>
 
   <ItemGroup>

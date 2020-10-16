@@ -111,9 +111,7 @@ namespace CardArtist
 
         private void OnProjectTreeSelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
-            var item = (ProjectItem)ProjectTree.SelectedItem;
-
-            if (!(item is ProjectFolder))
+            if (ProjectTree.SelectedItem is ProjectItem item && !(item is ProjectFolder))
             {
                 switch (Path.GetExtension(item.FullPath).ToLower())
                 {
@@ -139,7 +137,11 @@ namespace CardArtist
             {
                 IsEnabled = false;
                 Mouse.OverrideCursor = Cursors.Wait;
-                SetCurrentView(null, null, null);
+                if (ProjectTree.ItemContainerGenerator.ContainerFromIndex(0) is TreeViewItem item)
+                {
+                    item.IsSelected = true;
+                    item.IsSelected = false;
+                }
                 using var generator = new RendersGenerator(Project!, BorderCheck.IsChecked!.Value, CropCheck.IsChecked!.Value);
                 await generator.GenerateAsync();
             }
