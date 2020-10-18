@@ -33,8 +33,9 @@ namespace CardArtist
         private bool Crop;
         private string RendersPath;
         private string DebugPath;
-        private Dictionary<string, (RazorTemplateBase Template, string TemplateCode)>? TemplatesDictionary;
+        private Dictionary<string, (Type TemplateType, string TemplateCode)>? TemplatesDictionary;
         private AssemblyLoadContext LoadContext;
+        private Uri ProjectRoot;
 
         public RendersGenerator(Project project, bool drawBorder, bool crop)
         {
@@ -44,6 +45,7 @@ namespace CardArtist
             RendersPath = CreateEmptyFolder(project.FullPath, "Renders");
             DebugPath = CreateEmptyFolder(project.FullPath, "Debug");
             LoadContext = new AssemblyLoadContext("Generation context", true);
+            ProjectRoot = new Uri(Project.FullPath + @"\");
         }
 
         public async Task GenerateAsync()
@@ -57,7 +59,7 @@ namespace CardArtist
                     TemplatesDictionary = templates.Items!
                         .Where(item => !(item is ProjectFolder))
                         .Select(item => CreateTemplate(item))
-                        .ToDictionary(x => x.Name, x => (x.Template, x.TemplateCode));
+                        .ToDictionary(x => x.Name, x => (x.TemplateType, x.TemplateCode));
 
                     foreach (var deck in cards.Items!.Where(item => !(item is ProjectFolder)))
                     {
@@ -144,7 +146,8 @@ namespace CardArtist
             }
 
             dynamic cardData = new XmlDynamicElement(cardXmlElement);
-            template.Template.ClearAndInit(cardData);
+            var generator = (RazorTemplateBase)Activator.CreateInstance(template.TemplateType)!;
+            generator.Init(cardData, ProjectRoot);
             string? cardName = cardData.Id;
             if (cardName == null)
             {
@@ -156,8 +159,8 @@ namespace CardArtist
             string xaml;
             try
             {
-                await template.Template.ExecuteAsync();
-                xaml = template.Template.Output.ToString()!;
+                await generator.ExecuteAsync();
+                xaml = generator.Output.ToString()!;
                 await File.WriteAllTextAsync(cardXamlPath, xaml);
             }
             catch (Exception e)
@@ -210,13 +213,13 @@ namespace CardArtist
             }
         }
 
-        private (string Name, RazorTemplateBase Template, string TemplateCode) CreateTemplate(ProjectItem template)
+        private (string Name, Type TemplateType, string TemplateCode) CreateTemplate(ProjectItem template)
         {
             var templateName = Path.GetFileNameWithoutExtension(template.FullPath);
             var templateDebugFile = Path.Join(DebugPath, templateName + ".cs");
             var templateText = File.ReadAllText(template.FullPath);
 
-            var razorSourceDocument = RazorSourceDocument.Create(templateText, "template.razor");
+            var razorSourceDocument = RazorSourceDocument.Create(templateText, Path.GetFileName(template.FullPath));
 #pragma warning disable CS0618
             var razorEngine = RazorEngine.Create(b =>
             {
@@ -241,18 +244,16 @@ namespace CardArtist
                 .Concat(new MetadataReference[] {
                         MetadataReference.CreateFromFile(typeof(XElement).Assembly.Location),
                         MetadataReference.CreateFromFile(typeof(System.Dynamic.DynamicObject).Assembly.Location),
-                        MetadataReference.CreateFromFile(Assembly.Load(new AssemblyName("Microsoft.CSharp")).Location),
+                        MetadataReference.CreateFromFile(Assembly.Load(new AssemblyName("Microsoft.CSharp")).Location)
                 })
                 .ToList();
 
-            var projectRoot = new Uri(Project.FullPath + @"\");
-
-            foreach (Match match in Regex.Matches(templateText, @"<!--\s*reference\s+([^>]+)\s*-->", RegexOptions.IgnoreCase))
+            foreach (Match match in Regex.Matches(templateText, @"<!--\s*reference\s+(.+?)\s*-->", RegexOptions.IgnoreCase))
             {
                 var refName = match.Groups[1].Value;
                 if (refName.EndsWith(".dll", StringComparison.OrdinalIgnoreCase))
                 {
-                    references.Add(MetadataReference.CreateFromFile(LoadContext.LoadFromAssemblyPath(new Uri(projectRoot, refName).LocalPath).Location));
+                    references.Add(MetadataReference.CreateFromFile(LoadContext.LoadFromAssemblyPath(new Uri(ProjectRoot, refName).LocalPath).Location));
                 }
                 else
                 {
@@ -275,11 +276,8 @@ namespace CardArtist
             templatePdbStream.Seek(0, SeekOrigin.Begin);
             var templateAssembly = LoadContext.LoadFromStream(templateAssemblyStream, templatePdbStream);
             var generatorType = templateAssembly.GetType("Razor.Template")!;
-            var compiledTemplate = (RazorTemplateBase)generatorType.GetConstructor(Array.Empty<Type>())!.Invoke(Array.Empty<object>());
 
-            compiledTemplate.ProjectRoot = projectRoot;
-
-            return (templateName, compiledTemplate, templateText);
+            return (templateName, generatorType, templateText);
         }
 
         #region Disposable

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Security;
 using System.Text;
@@ -11,10 +12,10 @@ namespace CardArtist
     public abstract class RazorTemplateBase
     {
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-        public Uri ProjectRoot { get; set; }
-        public TextWriter Output { get; private set; }
         public dynamic Data { get; private set; }
+        public Uri ProjectRoot { get; private set; }
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+        public TextWriter Output { get; } = new StringWriter();
 
         public string Path(object relativePath) => new Uri(ProjectRoot, relativePath.ToString()).LocalPath;
 
@@ -55,25 +56,34 @@ namespace CardArtist
             }
         }
 
-        public void ClearAndInit(dynamic data)
+        public void Init(dynamic data, Uri projectRoot)
         {
-            Output = new StringWriter();
             Data = data;
+            ProjectRoot = projectRoot;
         }
 
         protected virtual void Write(object value)
         {
-            WriteLiteral(value?.ToString());
+            if (value != null)
+            {
+                Write(Convert.ToString(value, CultureInfo.InvariantCulture));
+            }
         }
 
-        protected virtual void Write(string value)
+        protected virtual void Write(string? value)
         {
-            Output.Write(SecurityElement.Escape(value));
+            if (!string.IsNullOrEmpty(value))
+            {
+                Output.Write(SecurityElement.Escape(value));
+            }
         }
 
         protected void WriteLiteral(object value)
         {
-            WriteLiteral(value?.ToString());
+            if (value != null)
+            {
+                WriteLiteral(Convert.ToString(value, CultureInfo.InvariantCulture));
+            }
         }
 
         protected void WriteLiteral(string? value)
