@@ -11,6 +11,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Loader;
+using System.Security;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -56,6 +57,8 @@ namespace CardArtist
                 var cards = Project.Cards;
                 if (cards != null && templates != null)
                 {
+                    await WriteDebugProjectFileAsync();
+
                     TemplatesDictionary = templates.Items!
                         .Where(item => !(item is ProjectFolder))
                         .Select(item => CreateTemplate(item))
@@ -216,6 +219,7 @@ namespace CardArtist
         private (string Name, Type TemplateType, string TemplateCode) CreateTemplate(ProjectItem template)
         {
             var templateName = Path.GetFileNameWithoutExtension(template.FullPath);
+            var namespaceName = CleanIdentifierName(templateName);
             var templateDebugFile = Path.Join(DebugPath, templateName + ".cs");
             var templateText = File.ReadAllText(template.FullPath);
 
@@ -224,8 +228,9 @@ namespace CardArtist
             var razorEngine = RazorEngine.Create(b =>
             {
                 FunctionsDirective.Register(b);
-                b.SetBaseType(typeof(RazorTemplateBase).FullName);
 #pragma warning restore CS0618
+                b.SetBaseType(typeof(RazorTemplateBase).FullName);
+                b.SetNamespace(namespaceName);
             });
             var razorCodeDocument = RazorCodeDocument.Create(razorSourceDocument);
             razorEngine.Process(razorCodeDocument);
@@ -275,9 +280,34 @@ namespace CardArtist
             templateAssemblyStream.Seek(0, SeekOrigin.Begin);
             templatePdbStream.Seek(0, SeekOrigin.Begin);
             var templateAssembly = LoadContext.LoadFromStream(templateAssemblyStream, templatePdbStream);
-            var generatorType = templateAssembly.GetType("Razor.Template")!;
+            var generatorType = templateAssembly.GetType(namespaceName + ".Template")!;
 
             return (templateName, generatorType, templateText);
+        }
+
+        private string CleanIdentifierName(string name)
+        {
+            var sb = new StringBuilder();
+            return "_" + string.Concat(name.Where(c => char.IsLetterOrDigit(c) || c == '_'));
+        }
+
+        private async Task WriteDebugProjectFileAsync()
+        {
+            var projectFileText =
+@$"<Project Sdk=""Microsoft.NET.Sdk"">
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include=""CardArtist"">
+      <HintPath>{SecurityElement.Escape(Assembly.GetEntryAssembly()!.Location)}</HintPath>
+    </Reference>
+  </ItemGroup>
+</Project>";
+
+            await File.WriteAllTextAsync(Path.Join(DebugPath, "Debug.csproj"), projectFileText);
         }
 
         #region Disposable
