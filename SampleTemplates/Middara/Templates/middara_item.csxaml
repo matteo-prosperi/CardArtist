@@ -1,0 +1,349 @@
+@using System
+@using System.Xml.Linq
+@using System.Text.RegularExpressions;
+<Grid xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Background="Black"
+      Width="2.5in"
+      Height="3.75in">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.25in"/>
+            <RowDefinition Height="@(Data.Title != null ? "0.23in" : "0")"/>
+            <RowDefinition Height="@(Data.Title != null || Data.Tags != null ? "0.17in" : "0")"/>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="0.25in"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.25in"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="0.25in"/>
+        </Grid.ColumnDefinitions>
+
+        <!--Background-->
+        <Image Grid.RowSpan="8" Grid.ColumnSpan="3"
+            HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+            Stretch="Fill"
+            Source="@Path(@"Resources\Background\Background.png")" />
+        @if (Data.Title != null || Data.Tags != null)
+        {
+            <Image Grid.ColumnSpan="3" Grid.RowSpan="3"
+                HorizontalAlignment="Stretch"
+                Stretch="Fill"
+                Source="@Path(@"Resources\Background\TagBar.png")" />
+        }
+        @if (Data["Text", 0] != null)
+        {
+            <Rectangle Grid.Row="4" Grid.ColumnSpan="4" Grid.RowSpan="3"
+                Margin="0,-0.5in,0,0">
+                <Rectangle.Fill>
+                    <ImageBrush AlignmentY="Top" Stretch="UniformToFill"
+                        ImageSource="@Path(@"Resources\Background\Layer2.png")" />
+                </Rectangle.Fill>
+            </Rectangle>
+        }
+
+        <!--Title-->
+        @if (Data.Title != null)
+        {
+            <Rectangle Grid.RowSpan="2" Grid.ColumnSpan="3" Fill="@ConvertColor(Data.Color)" />
+            <TextBlock Grid.Row="1" Grid.Column="1" Margin="0,-0.01in,0,0" Foreground="White" TextAlignment="Center" FontWeight="Bold" FontSize="13" FontFamily="Cinzel">
+                @Data.Title
+            </TextBlock>
+        }
+        @if (Data.Tags != null)
+        {
+            <TextBlock Grid.Row="2" Grid.Column="1" Margin="0,0.04in,0,0" Foreground="Black" TextAlignment="Right" FontWeight="Bold" FontSize="7.5" FontFamily="Optima LT STD">
+                @Data.Tags
+            </TextBlock>
+        }
+
+        <!--Picture-->
+        <Image Grid.Row="3" Grid.Column="1"
+            Margin="0,0.125in,0,0.25in"
+            HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+            Stretch="Uniform"
+            Source="@Path(Data.Picture)" />
+
+        <!--Text-->
+        @if (Data["Text", 0] != null)
+        {
+            <RichTextBox Grid.Row="4" Grid.Column="1" VerticalAlignment="Bottom" BorderBrush="Transparent" Background="Transparent" Margin="-0.05in,0,-0.05in,0.08in" >
+                <RichTextBox.Resources>
+                    <ResourceDictionary>
+                        <Style TargetType="Paragraph">
+                            <Setter Property="Margin" Value="0" />
+                            <Setter Property="Padding" Value="0,0.0in,0,0.02in" />
+                        </Style>
+                    </ResourceDictionary>
+                </RichTextBox.Resources>
+                <FlowDocument TextAlignment="Center" FontSize="9" FontFamily="Optima LT STD">
+                @{
+                    Explore((XElement)Data["Text", 0], MapText);
+                }
+                </FlowDocument>
+            </RichTextBox>
+        }
+
+        <!--Bottom bar-->
+        @{
+            var hasItemType = Data.ItemType != null;
+            var bottomBar = Data["BottomBar", 0];
+        }
+        <Rectangle Grid.Row="6" Grid.RowSpan="2" Grid.ColumnSpan="3" Fill="@(hasItemType ? ConvertColor(Data.Color) : "Black")" />
+        @if (hasItemType)
+        {
+            if (bottomBar != null)
+            {
+                <Rectangle Grid.Row="5" Grid.ColumnSpan="3" Fill="Black" />
+            }
+            <TextBlock Grid.Row="6" Grid.Column="1" Padding="0" Margin="-0.03in,0.04in,-0.03in,-0.01in" Foreground="White" TextAlignment="Center"
+                FontWeight="Bold" FontSize="14" FontFamily="Cinzel" TextWrapping="Wrap">
+                @{
+                    DecorateFirstCharacter(Data.ItemType);
+                }
+            </TextBlock>
+        }
+        @if (bottomBar != null)
+        {
+            <StackPanel Grid.Row="@(hasItemType ? "5" : "6")" Grid.Column="1"
+                VerticalAlignment="Top" HorizontalAlignment="Stretch" Margin="0,0.04in,0,@(hasItemType ? "0.08in" : "0")"
+                Orientation="Vertical"  >
+                <StackPanel.Resources>
+                    <ResourceDictionary>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Foreground" Value="White" />
+                            <Setter Property="FontFamily" Value="Optima LT STD" />
+                            <Setter Property="FontSize" Value="7.75" />
+                            <Setter Property="FontWeight" Value="DemiBold" />
+                            <Setter Property="TextAlignment" Value="Center" />
+                            <Setter Property="TextWrapping" Value="Wrap" />
+                            <Setter Property="TextWrapping" Value="Wrap" />
+                            <Setter Property="LineHeight" Value="11" />
+                            <Setter Property="Margin" Value="0,0,0,0.02in"/>
+                        </Style>
+                        <Style TargetType="Image">
+                            <Setter Property="Margin" Value="0.01in,0.01in,0.01in,-0.05in" />
+                            <Setter Property="Height" Value="0.15in" />
+                        </Style>
+                    </ResourceDictionary>
+                </StackPanel.Resources>
+                @foreach (var row in bottomBar["Row"])
+                {
+                    var flavor = row["Flavor", 0];
+                    if (flavor != null)
+                    {
+                        <TextBlock FontStyle="Italic" FontFamily="Palatino Linotype" FontSize="10" Margin="0,0,0,-0.01in" xml:space="preserve">@{
+                                Explore((XElement)flavor, MapSymbolUses);
+                        }</TextBlock>
+                    }
+                    else
+                    {
+                        var entries = row["Entry"];
+                        if (entries.Length == 1)
+                        {
+                            <TextBlock Margin="0,0,0,-0.03in" xml:space="preserve" >@{
+                                Explore((XElement)entries[0], MapSymbolUses);
+                            }</TextBlock>
+                        }
+                        else
+                        {
+                            <Grid Margin="0,0,0,0.01in">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                            @for(int i = 0; i < entries.Length; i++)
+                            {
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                            }
+                                </Grid.ColumnDefinitions>
+                            @for(int i = 0; i < entries.Length; i++)
+                            {
+                                var entry = entries[i];
+                                <TextBlock Grid.Column="@(i * 2 + 1)" xml:space="preserve">@{
+                                    Explore((XElement)entry, MapSymbolUses);
+                                }</TextBlock>
+                            }
+                            </Grid>
+                        }
+                    }
+                }
+            </StackPanel>
+        }
+
+        <!--Icons bar-->
+        <StackPanel Grid.Row="2" Grid.RowSpan="5" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <Grid HorizontalAlignment="Left" Width="0.49in" Visibility="@(Data.Cost == null ? "Hidden" : "Visible")">
+                <Image x:Name="Cost" HorizontalAlignment="Left" Width="0.25in" Source="@Path(@"Resources\Icons\Gold.png")" Visibility="Visible" />
+                @if (Data.Cost != null)
+                {
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+                        <StackPanel.Resources>
+                            <ResourceDictionary>
+                                <Style TargetType="Image">
+                                    <Setter Property="Height" Value="0.16in" />
+                                    <Setter Property="Margin" Value="-0.005in,0,0,0" />
+                                </Style>
+                            </ResourceDictionary>
+                        </StackPanel.Resources>
+                        @{
+                            BorderedNumbers(Data.Cost);
+                        }
+                    </StackPanel>
+                }
+            </Grid>
+            @{
+                var dice = ((string)Data.Dice)?.Split(';');
+            }
+            @switch (dice?.Length ?? 0)
+            {
+                case 1:
+                    <Image Width="0.14in" Margin="0.09in,0.09in,0,0" HorizontalAlignment="Left" Source="@Path(@$"Resources\Dice\{dice[0]}.png")" />
+                    break;
+                case 2:
+                    <Grid HorizontalAlignment="Left">
+                        <Image Width="0.14in" Margin="0.03in,0.09in,0,0" HorizontalAlignment="Left" Source="@Path(@$"Resources\Dice\{dice[0]}.png")" />
+                        <Image Width="0.14in" Margin="0.17in,0.09in,0,0" HorizontalAlignment="Left" Source="@Path(@$"Resources\Dice\{dice[1]}.png")" />
+                    </Grid>
+                    break;
+                case 3:
+                    <Grid HorizontalAlignment="Left">
+                        <Image Width="0.14in" Margin="0.03in,0.18in,0,0" HorizontalAlignment="Left" Source="@Path(@$"Resources\Dice\{dice[0]}.png")" />
+                        <Image Width="0.14in" Margin="0.17in,0.18in,0,0" HorizontalAlignment="Left" Source="@Path(@$"Resources\Dice\{dice[1]}.png")" />
+                        <Image Width="0.14in" Margin="0.1in,-0.08in,0,0" HorizontalAlignment="Left" Source="@Path(@$"Resources\Dice\{dice[2]}.png")" />
+                    </Grid>
+                    break;
+            }
+            @{
+                Explore((XElement)Data["Icons", 0], MapIcons);
+            }
+        </StackPanel>
+
+        <!--Border-->
+        <Border x:Name="Card"
+             HorizontalAlignment="Stretch" VerticalAlignment="Top"
+             Grid.ColumnSpan="3" Grid.RowSpan="8"
+             Width="2.25in"
+             Height="3.5in"
+             Margin="0.125in"
+             Padding="0.125in"
+             CornerRadius="10"
+             BorderBrush="White"
+             BorderThickness="1">
+        </Border>
+    </Grid>
+</Grid>
+
+@functions
+{
+    (bool Print, bool Explore) MapSymbolUses(dynamic e)
+    {
+        switch (e.Name())
+        {
+            case "Icon":
+                WriteLiteral("<Image Source=\"");
+                WriteLiteral(Path(@$"Resources\WhiteIcons\{e.Symbol}.png"));
+                WriteLiteral("\" />");
+                return (false, false);
+        }
+        return (true, true);
+    }
+
+    (bool Print, bool Explore) MapIcons(dynamic e)
+    {
+        <Grid HorizontalAlignment="Left" Width="0.53in">
+            <Image Width="0.22in" HorizontalAlignment="Left" Margin="0.05in,0.06in,0,0" Source="@Path(@$"Resources\Icons\{e.Name()}.png")" />
+            @if (e.Text != null)
+            {
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,-0.015in">
+                    <StackPanel.Resources>
+                        <ResourceDictionary>
+                            <Style TargetType="Image">
+                                <Setter Property="Height" Value="0.14in" />
+                                <Setter Property="Margin" Value="-0.005in,0,0,0" />
+                            </Style>
+                        </ResourceDictionary>
+                    </StackPanel.Resources>
+                    @{
+                        BorderedNumbers(e.Text);
+                    }
+                </StackPanel>
+            }
+        </Grid>
+        return (false, false);
+    }
+
+    void BorderedNumbers(dynamic val)
+    {
+        var text = (string)val;
+        if (text != null)
+        {
+            foreach (var c in text)
+            {
+                <Image Source="@Path(@$"Resources\BorderedText\{((int)c).ToString("X2")}.png")"/>
+            }
+        }
+    }
+
+    (bool Print, bool Explore) MapText(dynamic e)
+    {
+        switch (e.Name())
+        {
+            case "Condition":
+                <Border Grid.ColumnSpan="2" Background="Black" CornerRadius="3"
+                    Padding="0.05in,0.01in,0.05in,0.01in" Margin="0,0.04in,0,0">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Height="0.1in" Source="@Path(@$"Resources\TagIcons\{e.Symbol}.png")" />
+                        <TextBlock Grid.Column="1" Foreground="White" FontWeight="Bold" xml:space="preserve"> @e</TextBlock>    
+                    </StackPanel>
+                </Border>
+                return (false, false);
+            case "Icon":
+                <Image Height="0.15in" Margin="0,0,0,-0.05in" Source="@Path(@$"Resources\TextIcons\{e.Symbol}.png")" />
+                return (false, false);
+            case "Dice":
+                <Image Height="0.15in" Margin="0,-0.035in,0,-0.025in" Source="@Path(@$"Resources\Dice\{e.Color}.png")" />
+                return (false, false);
+        }
+        return (true, true);
+    }
+
+    string ConvertColor(dynamic color)
+    {
+        switch ((string)color)
+        {
+            case "Weapon":
+                return "#D2232A";
+            case "Relic":
+                return "#00884B";
+            case "Accessory":
+                return "#E20687";
+            case "Armor":
+                return "#2C2E8D";
+            case "Core":
+                return "#006FBA";
+            case "Consumable":
+                return "#AC7809";
+        }
+        return (string)color;
+    }
+
+    void DecorateFirstCharacter(dynamic val)
+    {
+        var text = (string)val;
+        if (text != null)
+        {
+            foreach (var word in Regex.Split(text, @"\s+"))
+            {
+                WriteLiteral("<Span FontFamily=\"Cinzel Decorative\">");
+                Write(word[0]);
+                WriteLiteral("</Span>");
+                Write(word.Substring(1));
+                WriteLiteral(" ");
+            }
+        }
+    }
+}

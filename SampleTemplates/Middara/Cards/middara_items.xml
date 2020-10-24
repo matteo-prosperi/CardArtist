@@ -1,0 +1,181 @@
+<Deck Template="middara_item" Dpi="300" Width="750" Height="1125">
+    <Card
+        Id="Short Sword Front"
+        Title="Short Sword"
+        Tags="SWORD • SHORT SWORD • LIGHT"
+        Picture="Resources\Pictures\Sample.png"
+        Cost="18"
+        Color="Weapon"
+        Dice="Purple" >
+        <Text>
+            <Paragraph><Condition Symbol="Exhaust">EXHAUST</Condition></Paragraph>
+            <Paragraph>Move <Bold>1</Bold> space diagonally.</Paragraph>
+            <Paragraph><Condition Symbol="Combo">COMBO : LIGHT</Condition></Paragraph>
+            <Paragraph><Bold>•</Bold><Icon Symbol="Exhaust" /><Bold>EXAUST:</Bold> Re-roll<Bold>1</Bold> of your Combat Dice.</Paragraph>
+            <Paragraph><Bold>• FINESSE: WHITE</Bold><Dice Color="White" /></Paragraph>
+        </Text>
+        <Icons>
+            <Hand Text="1" />
+            <Melee />
+        </Icons>
+        <BottomBar>
+            <Row>
+                <Entry><Icon Symbol="Shield" /><Icon Symbol="Shield" />+2 PHYSICAL DMG</Entry>
+                <Entry><Icon Symbol="Burst" />+1 PHYSICAL DMG</Entry>
+            </Row>
+        </BottomBar>
+    </Card>
+    <Card
+        Id="Two dice"
+        Title="Two dice"
+        Picture="Resources\Pictures\Sample.png"
+        Cost="1"
+        Color="Weapon"
+        Dice="White;Teal" >
+    </Card>
+    <Card
+        Id="Three dice"
+        Title="Three dice"
+        Picture="Resources\Pictures\Sample.png"
+        Cost="1"
+        Color="Weapon"
+        Dice="Orange;Red;Black" >
+    </Card>
+    <Card
+        Id="No cost"
+        Title="No cost"
+        Picture="Resources\Pictures\Sample.png"
+        Color="Weapon"
+        Dice="Orange;Red;Black" >
+    </Card>
+    <Card
+        Id="No title"
+        Picture="Resources\Pictures\Sample.png"
+        Color="Weapon" >
+    </Card>
+    <Card
+        Id="No title Tags"
+        Tags="SWORD • SHORT SWORD • LIGHT"
+        Picture="Resources\Pictures\Sample.png"
+        Color="Weapon" >
+    </Card>
+    <Card
+        Id="Text Conditions"
+        Title="Text Conditions"
+        Picture="Resources\Pictures\Sample.png"
+        Color="Weapon" >
+        <Text>
+            <Paragraph><Condition Symbol="Discard">DISCARD</Condition></Paragraph>
+            <Paragraph><Condition Symbol="Flip">FLIP</Condition></Paragraph>
+            <Paragraph><Condition Symbol="Combo">COMBO: BLUNT</Condition></Paragraph>
+            <Paragraph><Condition Symbol="Passive">PASSIVE</Condition></Paragraph>
+            <Paragraph><Condition Symbol="Exhaust">EXHAUST</Condition></Paragraph>
+            <Paragraph><Condition Symbol="PerEncounter">PER ENCOUNTER</Condition></Paragraph>
+        </Text>
+    </Card>
+    <Card
+        Id="Flowing Text"
+        Title="Flowing Text"
+        Picture="Resources\Pictures\Sample.png"
+        Color="Weapon" >
+    <Text>
+        <Paragraph><Condition Symbol="Discard">DISCARD</Condition></Paragraph>
+        <Paragraph>Foo bar bar bar bar bar bar bar bar bar bar bar bar bar bar bar bar bar bar bar bar bar bar bar bar bar bar bar bar bar bar</Paragraph>
+        <Paragraph><Condition Symbol="Passive">PASSIVE</Condition></Paragraph>
+        <Paragraph>Foo bar bar bar bar bar bar bar bar bar bar bar bar bar bar bar bar bar bar bar bar bar bar bar bar bar bar bar bar bar bar</Paragraph>
+    </Text>
+</Card>
+    <Card
+        Id="Two Symbol Use Rows"
+        Title="Two Symbol Use Rows"
+        Picture="Resources\Pictures\Sample.png"
+        Color="Weapon" >
+        <BottomBar>
+            <Row>
+                <Entry><Icon Symbol="Shield" /><Icon Symbol="Shield" />+2 PHYSICAL DMG</Entry>
+                <Entry><Icon Symbol="Burst" />+1 PHYSICAL DMG</Entry>
+            </Row>
+            <Row>
+                <Entry><Icon Symbol="Book" /><Icon Symbol="Book" />FU: MOVE 1 SPACE</Entry>
+            </Row>
+        </BottomBar>
+    </Card>
+    <Card
+        Id="Multi-line Symbol Use"
+        Title="Multi-line Symbol Use"
+        Picture="Resources\Pictures\Sample.png"
+        Color="Weapon" >
+        <BottomBar>
+            <Row>
+                <Entry><Icon Symbol="Book" /><Icon Symbol="Burst" /> FU: Deal 5 PHYSICAL DMG to all figures other than yourself who are adjacent to the target of this Attack.</Entry>
+            </Row>
+        </BottomBar>
+    </Card>
+    <Card
+        Id="Symbols in Text"
+        Title="Symbols in Text"
+        Picture="Resources\Pictures\Sample.png"
+        Color="Weapon" >
+        <Text>
+            <Paragraph>Foo <Icon Symbol="Agility" /><Icon Symbol="Book" /><Icon Symbol="Book1" /><Icon Symbol="Book2" /><Icon Symbol="Book3" /><Icon Symbol="Book4" /> Bar</Paragraph>
+            <Paragraph>Foo <Icon Symbol="Defense" /><Icon Symbol="Discard" /><Icon Symbol="Exhaust" /><Icon Symbol="Health" /><Icon Symbol="Lore" /><Icon Symbol="Melee" /> Bar</Paragraph>
+            <Paragraph>Foo <Icon Symbol="MeleeRanged" /><Icon Symbol="Movement" /><Icon Symbol="Perception" /><Icon Symbol="PerEncounter" /><Icon Symbol="Presence" /> Bar</Paragraph>
+            <Paragraph>Foo <Icon Symbol="Ranged" /><Icon Symbol="Shield" /><Icon Symbol="Skull" /><Icon Symbol="Strength" /> Bar</Paragraph>
+        </Text>
+    </Card>
+    <Card
+        Id="Item Type"
+        Title="Item Type"
+        Picture="Resources\Pictures\Sample.png"
+        Color="Relic"
+        ItemType="COMMON RELIC" >
+    </Card>
+    <Card
+        Id="Item Type and Symbol Use"
+        Title="Item Type and Symbol Use"
+        Picture="Resources\Pictures\Sample.png"
+        Color="Relic"
+        ItemType="COMMON RELIC" >
+        <BottomBar>
+            <Row>
+                <Entry>FU: <Bold FontWeight="Normal">Inflict <Italic>Paralize</Italic></Bold>, +2 DAMAGE</Entry>
+            </Row>
+        </BottomBar>
+    </Card>
+    <Card
+        Id="Flavor"
+        Title="Flavor"
+        Picture="Resources\Pictures\Sample.png"
+        Color="Accessory" >
+        <BottomBar>
+            <Row>
+                <Flavor>Foo bar bar bar!</Flavor>
+            </Row>
+        </BottomBar>
+    </Card>
+    <Card
+        Id="Item Type and Flavor"
+        Title="Item Type and Flavor"
+        Picture="Resources\Pictures\Sample.png"
+        Color="Accessory"
+        ItemType="MUNDANE UNIQUE ACCESSORY" >
+        <BottomBar>
+            <Row>
+                <Flavor>Foo bar bar bar!</Flavor>
+            </Row>
+        </BottomBar>
+    </Card>
+    <Card
+        Id="Symbols and Text"
+        Title="Symbols and Text"
+        Picture="Resources\Pictures\Sample.png"
+        Color="Accessory"
+        Cost="270"
+        ItemType="RARE UNIQUE ACCESSORY" >
+        <Icons>
+            <Hand Text="1" />
+            <MeleeRanged Text="*" />
+            <Armor Text="+1" />
+        </Icons>
+    </Card>
+</Deck>

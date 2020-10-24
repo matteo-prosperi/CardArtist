@@ -8,6 +8,10 @@ The techinical design of **CardArtist** is discussed in the following blog posts
 - [Creating your own .NET DynamicObject. Why, when and how.](https://matteo.tech.blog/2020/09/21/creating-your-own-net-dynamicobject-why-when-and-how/)
 - [Automating graphic design with WPF.](https://matteo.tech.blog/2020/10/05/automating-graphic-design-with-wpf/)
 
+## License
+
+The license information for this repository are available in [LICENSE.md](LICENSE.md).
+
 ## System requirements
 
 **CardArtist** runs exclusively on Windows and requires [.NET 5](https://dotnet.microsoft.com/download/dotnet/5.0).
