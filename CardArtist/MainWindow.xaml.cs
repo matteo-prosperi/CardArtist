@@ -50,8 +50,8 @@ namespace CardArtist
             var dlg = new SaveFileDialog
             {
                 InitialDirectory = Project!.TemplatesFolderPath,
-                DefaultExt = "*.razor",
-                Filter = "Card template|*.razor"
+                DefaultExt = "*.csxaml",
+                Filter = "Card template|*.csxaml"
             };
             if (dlg.ShowDialog() == true)
             {
@@ -119,6 +119,7 @@ namespace CardArtist
                     case ".xml":
                     case ".xaml":
                     case ".cs":
+                    case ".csxaml":
                         SetCurrentView(item.FullPath, null, null);
                         return;
                     case ".jpg":

@@ -43,7 +43,7 @@ The _Cards_ subfolder contains the card database which is composed of "decks": X
     </Card>
 </Deck>
 ```
-Each _deck_ file will result, when rendering the cards, in the generation of a separate folder. In the example above, the _deck_ references the _template_ file named `t1.razor`. The two cards from this deck will be rendered at `300` DPIs resulting in two files named `1.png` and `2.png`.
+Each _deck_ file will result, when rendering the cards, in the generation of a separate folder. In the example above, the _deck_ references the _template_ file named `t1.csxaml`. The two cards from this deck will be rendered at `300` DPIs resulting in two files named `1.png` and `2.png`.
 
 The user can add attributes and children to the `Card` elements, such data can be referenced from the template.
 

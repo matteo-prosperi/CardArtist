@@ -8,7 +8,7 @@
     <Nullable>enable</Nullable>
     <Authors>Matteo Prosperi</Authors>
     <Copyright>Matteo Prosperi 2020</Copyright>
-    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageLicenseFile>Apache2.md</PackageLicenseFile>
     <PackageProjectUrl>https://github.com/matteo-prosperi</PackageProjectUrl>
     <RepositoryUrl>https://github.com/matteo-prosperi</RepositoryUrl>
     <Version>0.0.2</Version>
@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\LICENSE">
+    <None Include="..\Apache2.md">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
