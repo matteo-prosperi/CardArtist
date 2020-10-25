@@ -178,4 +178,20 @@
             <Armor Text="+1" />
         </Icons>
     </Card>
+    <Card
+        Id="All rows"
+        Title="Title"
+        Picture="Resources\Pictures\Sample.png"
+        Color="Weapon"
+        Tags="TAGS"
+        ItemType="ITEM TYPE" >
+        <Text>
+            <Paragraph>Text</Paragraph>
+        </Text>
+        <BottomBar>
+            <Row>
+                <Flavor>Bottom bar</Flavor>
+            </Row>
+        </BottomBar>
+    </Card>
 </Deck>

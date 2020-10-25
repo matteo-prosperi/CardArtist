@@ -27,9 +27,16 @@ The license information for this repository are available in [LICENSE.md](LICENS
 
 There is very good free software that can be used in conjunction with **CardArtist**, these are a few suggestions:
 - Card database (XML) and graphic templates ([Razor](https://docs.microsoft.com/en-us/aspnet/web-pages/overview/getting-started/introducing-razor-syntax-c)) editing: [Visual Studio Code](https://code.visualstudio.com/)
-- XAML/WPF preview: [Blend for Visual Studio Community](https://visualstudio.microsoft.com/vs/community/)
+- XAML/WPF preview and C# debugging: [Visual Studio Community](https://visualstudio.microsoft.com/vs/community/)
+
+## Getting started
+
+The rest of this document explains how to create a template and describes all the features of **CardArtist**, a general understanding of _C#_, _Razor_ and _WPF_ is expected.
+
+For users who are not yet familiar with _C#_, _Razor_ or _WPF_, it may be easier to read this [step by step tutorial](SampleTemplates/Middara/Tutorial.md) first. The tutorial shows in detail how the [Middara sample template](SampleTemplates/Middara) was written and can be used to learn different approaches to create complex card layouts.
 
 ## Creating a project
+
 A **CardArtist** project consists of a folder having two subfolders: _Cards_ and _Templates_. **CardArtist** will automatically create this folder structure when using _Load Project_ and selecting a folder.
 
 ### Cards
