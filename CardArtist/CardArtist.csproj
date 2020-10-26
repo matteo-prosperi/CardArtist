@@ -10,11 +10,27 @@
     <Copyright>Matteo Prosperi 2020</Copyright>
     <PackageLicenseFile>Apache2.md</PackageLicenseFile>
     <PackageProjectUrl>https://github.com/matteo-prosperi</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/matteo-prosperi</RepositoryUrl>
-    <Version>0.0.2</Version>
+    <RepositoryUrl>https://github.com/matteo-prosperi/CardArtist</RepositoryUrl>
+    <Version>0.0.3</Version>
+    <ApplicationIcon>Icon.ico</ApplicationIcon>
+    <PackageIcon>Render.png</PackageIcon>
+    <Product>Card Artist</Product>
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Images\Deck.png" />
+    <None Remove="Images\Edit.png" />
+    <None Remove="Images\Open.png" />
+    <None Remove="Images\Render.png" />
+    <None Remove="Images\Template.png" />
+    <None Include="Images\Render.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Fluent.Ribbon" Version="8.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Language" Version="5.0.0-rc.2.20475.17" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.8.0-4.final" />
     <PackageReference Include="System.Collections.Immutable" Version="5.0.0-rc.2.20475.5" />
@@ -25,6 +41,14 @@
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Images\Deck.png" />
+    <Resource Include="Images\Edit.png" />
+    <Resource Include="Images\Open.png" />
+    <Resource Include="Images\Render.png" />
+    <Resource Include="Images\Template.png" />
   </ItemGroup>
 
 </Project>

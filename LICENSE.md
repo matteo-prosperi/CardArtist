@@ -1,3 +1,3 @@
-The content of this repository, with the exception of the `SampleTemplates` folder, is licensed under [Apache License Version 2.0](Apache2.md).
-
-Each template under the `SampleTemplates` folder is accompanied by its own license information.
+The content of this repository is licensed under [Apache License Version 2.0](Apache2.md) with the following exceptions:
+- Each template under the `SampleTemplates` folder is accompanied by its own license information.
+- The icons under the `CardArtist\Images` folder are made by [Freepik](https://www.flaticon.com/authors/freepik) from [www.flaticon.com](https://www.flaticon.com/) and are licensed as free for personal and commercial purpose with attribution.

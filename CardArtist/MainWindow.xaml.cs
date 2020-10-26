@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
@@ -13,7 +14,7 @@ namespace CardArtist
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow
     {
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         public static MainWindow Singleton { get; private set; }
@@ -39,9 +40,12 @@ namespace CardArtist
                 Project = new Project(dlg.SelectedPath);
                 Project.Expand();
                 ProjectTree.DataContext = Project;
-                UpdateButton.IsEnabled = true;
+                LoadProjectButton.IsEnabled = false;
+                RibbonHomeTab.IsEnabled = true;
                 NewTemplateButton.IsEnabled = true;
                 NewCardButton.IsEnabled = true;
+                EditButton.IsEnabled = true;
+                UpdateButton.IsEnabled = true;
             }
         }
 
@@ -99,6 +103,23 @@ namespace CardArtist
             }
         }
 
+        private void OnEditButtonClick(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                using var process = new Process();
+                process.StartInfo.FileName = "code";
+                process.StartInfo.Arguments = "\"" + Project!.FullPath + "\"";
+                process.StartInfo.UseShellExecute = true;
+                process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+                process.Start();
+            }
+            catch
+            {
+                MessageBox.Show("Visual Studio Code can be downloaded from https://code.visualstudio.com/.", "Error opening Visual Studio Code");
+            }
+        }
+
         private void OnProjectTreeItemExpanded(object sender, RoutedEventArgs e)
         {
             ((e.OriginalSource as TreeViewItem)?.DataContext as ProjectFolder)?.Expand();
@@ -120,6 +141,7 @@ namespace CardArtist
                     case ".xaml":
                     case ".cs":
                     case ".csxaml":
+                    case ".csproj":
                         SetCurrentView(item.FullPath, null, null);
                         return;
                     case ".jpg":

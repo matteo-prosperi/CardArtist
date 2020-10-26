@@ -4,6 +4,7 @@
              xmlns:local="clr-namespace:CardArtist"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <!-- Attach default Theme -->
+        <ResourceDictionary Source="pack://application:,,,/Fluent;Component/Themes/Generic.xaml" />
     </Application.Resources>
 </Application>
