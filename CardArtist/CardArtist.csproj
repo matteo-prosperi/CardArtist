@@ -11,7 +11,7 @@
     <PackageLicenseFile>Apache2.md</PackageLicenseFile>
     <PackageProjectUrl>https://github.com/matteo-prosperi</PackageProjectUrl>
     <RepositoryUrl>https://github.com/matteo-prosperi/CardArtist</RepositoryUrl>
-    <Version>0.0.3</Version>
+    <Version>0.0.3.1</Version>
     <ApplicationIcon>Icon.ico</ApplicationIcon>
     <PackageIcon>Render.png</PackageIcon>
     <Product>Card Artist</Product>
@@ -31,9 +31,9 @@
 
   <ItemGroup>
     <PackageReference Include="Fluent.Ribbon" Version="8.0.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Razor.Language" Version="5.0.0-rc.2.20475.17" />
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.8.0-4.final" />
-    <PackageReference Include="System.Collections.Immutable" Version="5.0.0-rc.2.20475.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Razor.Language" Version="5.0.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.8.0-5.final" />
+    <PackageReference Include="System.Collections.Immutable" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>
