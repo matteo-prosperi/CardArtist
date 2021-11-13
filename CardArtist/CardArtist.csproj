@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net5.0-windows</TargetFramework>
+    <TargetFramework>net6.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
     <UseWindowsForms>true</UseWindowsForms>
     <Nullable>enable</Nullable>
@@ -11,7 +11,7 @@
     <PackageLicenseFile>Apache2.md</PackageLicenseFile>
     <PackageProjectUrl>https://github.com/matteo-prosperi</PackageProjectUrl>
     <RepositoryUrl>https://github.com/matteo-prosperi/CardArtist</RepositoryUrl>
-    <Version>0.0.3.1</Version>
+    <Version>0.0.3.2</Version>
     <ApplicationIcon>Icon.ico</ApplicationIcon>
     <PackageIcon>Render.png</PackageIcon>
     <Product>Card Artist</Product>
