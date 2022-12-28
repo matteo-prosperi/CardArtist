@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0-windows</TargetFramework>
+    <TargetFramework>net7.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
     <UseWindowsForms>true</UseWindowsForms>
     <Nullable>enable</Nullable>
@@ -11,7 +11,7 @@
     <PackageLicenseFile>Apache2.md</PackageLicenseFile>
     <PackageProjectUrl>https://github.com/matteo-prosperi</PackageProjectUrl>
     <RepositoryUrl>https://github.com/matteo-prosperi/CardArtist</RepositoryUrl>
-    <Version>0.0.3.2</Version>
+    <Version>0.0.3.3</Version>
     <ApplicationIcon>Icon.ico</ApplicationIcon>
     <PackageIcon>Render.png</PackageIcon>
     <Product>Card Artist</Product>
@@ -30,10 +30,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Fluent.Ribbon" Version="8.0.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Razor.Language" Version="5.0.0" />
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.8.0-5.final" />
-    <PackageReference Include="System.Collections.Immutable" Version="5.0.0" />
+    <PackageReference Include="Fluent.Ribbon" Version="9.0.4" />
+    <PackageReference Include="Microsoft.AspNetCore.Razor.Language" Version="6.0.12" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.4.0" />
+    <PackageReference Include="System.Collections.Immutable" Version="7.0.0" />
   </ItemGroup>
 
   <ItemGroup>
